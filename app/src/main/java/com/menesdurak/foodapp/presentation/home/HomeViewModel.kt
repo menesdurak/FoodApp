@@ -1,4 +1,4 @@
-package com.menesdurak.foodapp.presentation
+package com.menesdurak.foodapp.presentation.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,13 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.menesdurak.foodapp.data.NetworkResponseState
 import com.menesdurak.foodapp.domain.usecase.GetFoodsUseCase
+import com.menesdurak.foodapp.domain.usecase.PostFoodsToCartUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FoodViewModel @Inject constructor(
+class HomeViewModel @Inject constructor(
     private val getFoodsUseCase: GetFoodsUseCase,
 ) : ViewModel() {
 
@@ -38,4 +39,6 @@ class FoodViewModel @Inject constructor(
             }
         }
     }
+
+
 }

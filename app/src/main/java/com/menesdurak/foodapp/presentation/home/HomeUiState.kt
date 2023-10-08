@@ -1,6 +1,5 @@
-package com.menesdurak.foodapp.presentation
+package com.menesdurak.foodapp.presentation.home
 
-import androidx.annotation.StringRes
 import com.menesdurak.foodapp.data.remote.dto.FoodsResponse
 
 sealed class HomeUiState {
