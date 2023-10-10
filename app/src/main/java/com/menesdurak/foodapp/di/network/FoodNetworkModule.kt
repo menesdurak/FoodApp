@@ -13,7 +13,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object FoodNetworkModule {
 
-    private const val BASE_URL = "http://kasimadalan.pe.hu/yemekler/"
+    private const val BASE_URL = "http://kasimadalan.pe.hu/"
 
     @Provides
     @Singleton

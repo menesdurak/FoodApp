@@ -2,6 +2,7 @@ package com.menesdurak.foodapp.data.repository
 
 import com.menesdurak.foodapp.data.NetworkResponseState
 import com.menesdurak.foodapp.data.remote.dto.CartResponse
+import com.menesdurak.foodapp.data.remote.dto.Response
 import com.menesdurak.foodapp.data.remote.dto.FoodsResponse
 import com.menesdurak.foodapp.data.source.RemoteDataSource
 import com.menesdurak.foodapp.di.coroutine.IoDispatcher
@@ -40,7 +41,7 @@ class FoodRepositoryImpl @Inject constructor(
         price: Int,
         count: Int,
         userName: String,
-    ): Flow<NetworkResponseState<CartResponse>> {
+    ): Flow<NetworkResponseState<Response>> {
         return flow {
             emit(NetworkResponseState.Loading)
             when (val response =
@@ -54,6 +55,24 @@ class FoodRepositoryImpl @Inject constructor(
                 }
 
                 else -> {}
+            }
+        }.flowOn(ioDispatcher)
+    }
+
+    override suspend fun getFoodsFromCart(userName: String): Flow<NetworkResponseState<CartResponse>> {
+        return flow {
+            emit(NetworkResponseState.Loading)
+            when ( val response =
+                remoteDataSource.getFoodsFromCart(userName)) {
+                is NetworkResponseState.Error -> {
+                    emit(NetworkResponseState.Error(response.exception))
+                }
+
+                is NetworkResponseState.Success -> {
+                    emit(NetworkResponseState.Success(response.result))
+                }
+
+                else -> { }
             }
         }.flowOn(ioDispatcher)
     }

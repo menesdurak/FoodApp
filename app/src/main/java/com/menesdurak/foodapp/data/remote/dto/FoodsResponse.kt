@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class FoodsResponse(
     @SerializedName("success")
-    val success: Int?,
+    val success: Int,
     @SerializedName("yemekler")
-    val foods: List<Food>?
+    val foods: List<Food>
 )

@@ -8,7 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.menesdurak.foodapp.R
+import com.menesdurak.foodapp.data.remote.dto.Food
 import com.menesdurak.foodapp.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -16,6 +19,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val homeViewModel by viewModels<HomeViewModel>()
+    private val homeAdapter by lazy { FoodAdapter(::onItemClick) }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -23,25 +28,44 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         homeViewModel.getFoods()
-        observeUiState()
 
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        with(binding.recyclerView) {
+            adapter = homeAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+        }
+
+        observeUiState()
+
+    }
+
     private fun observeUiState() {
         homeViewModel.homeUiState.observe(viewLifecycleOwner) {
-            when(it) {
+            when (it) {
                 is HomeUiState.Error -> {
                     Log.e("HomeViewModel", "Error: ${it.message}")
                 }
+
                 HomeUiState.Loading -> {
                     Log.e("HomeViewModel", "Loading")
                 }
+
                 is HomeUiState.Success -> {
                     Log.e("HomeViewModel", "Success: ${it.data.foods}")
+                    homeAdapter.updateFoods(it.data.foods)
                 }
             }
         }
+    }
+
+    private fun onItemClick(food: Food) {
+        val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(food)
+        findNavController().navigate(action)
     }
 
 }

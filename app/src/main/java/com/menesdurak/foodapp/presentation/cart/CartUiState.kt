@@ -1,10 +1,10 @@
 package com.menesdurak.foodapp.presentation.cart
 
-import com.menesdurak.foodapp.data.remote.dto.CartResponse
+import com.menesdurak.foodapp.data.remote.dto.Response
 
-sealed class CartUiState {
-    object Loading : CartUiState()
-    data class Success(val data: CartResponse) : CartUiState()
-    data class Error(val message: String) : CartUiState()
+sealed class CartUiState<out T> {
+    object Loading : CartUiState<Nothing>()
+    data class Success<T>(val data: T) : CartUiState<T>()
+    data class Error(val message: String) : CartUiState<Nothing>()
 
 }

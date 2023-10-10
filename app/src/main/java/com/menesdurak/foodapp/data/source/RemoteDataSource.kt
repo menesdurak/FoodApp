@@ -2,8 +2,8 @@ package com.menesdurak.foodapp.data.source
 
 import com.menesdurak.foodapp.data.NetworkResponseState
 import com.menesdurak.foodapp.data.remote.dto.CartResponse
+import com.menesdurak.foodapp.data.remote.dto.Response
 import com.menesdurak.foodapp.data.remote.dto.FoodsResponse
-import retrofit2.http.Field
 
 interface RemoteDataSource {
 
@@ -14,5 +14,6 @@ interface RemoteDataSource {
         price: Int,
         count: Int,
         userName: String,
-    ): NetworkResponseState<CartResponse>
+    ): NetworkResponseState<Response>
+    suspend fun getFoodsFromCart(userName: String): NetworkResponseState<CartResponse>
 }

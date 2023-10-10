@@ -4,6 +4,8 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -54,16 +56,29 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
+    //Lifecycle
     implementation("androidx.lifecycle:lifecycle-viewmodel:2.5.1")
     implementation("androidx.activity:activity-ktx:1.6.1")
 
+    //Navigation
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
 
+    //Dagger-Hilt
     implementation("com.google.dagger:hilt-android:$hilt_version")
     kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
 
+    //Retrofit
     implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
     implementation("com.google.code.gson:gson:$retrofit_version")
     implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
+
+    //Glide
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+
+    //Firebase
+    implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
+    implementation("com.google.firebase:firebase-crashlytics-ktx")
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation("com.google.firebase:firebase-auth-ktx")
 }
