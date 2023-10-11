@@ -10,12 +10,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
-import com.menesdurak.foodapp.R
 import com.menesdurak.foodapp.common.Constants
 import com.menesdurak.foodapp.data.remote.dto.Food
 import com.menesdurak.foodapp.databinding.FragmentDetailBinding
-import com.menesdurak.foodapp.presentation.cart.CartUiState
-import com.menesdurak.foodapp.presentation.cart.CartViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -63,6 +60,8 @@ class DetailFragment : Fragment() {
                     userName
                 )
                 observeUiState()
+                animationView.playAnimation()
+
             }
         }
     }

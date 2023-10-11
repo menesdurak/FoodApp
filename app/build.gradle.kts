@@ -47,6 +47,7 @@ dependencies {
     val hilt_version = "2.44"
     val nav_version = "2.5.3"
     val retrofit_version = "2.9.0"
+    val lottie_version = "3.4.0"
 
     implementation("androidx.core:core-ktx:1.8.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -81,4 +82,7 @@ dependencies {
     implementation("com.google.firebase:firebase-crashlytics-ktx")
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-auth-ktx")
+
+    //Lottie
+    implementation ("com.airbnb.android:lottie:$lottie_version")
 }
