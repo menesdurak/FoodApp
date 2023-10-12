@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.menesdurak.foodapp.data.NetworkResponseState
 import com.menesdurak.foodapp.data.remote.dto.CartResponse
 import com.menesdurak.foodapp.data.remote.dto.Response
+import com.menesdurak.foodapp.domain.usecase.DeleteFoodFromCartUseCase
 import com.menesdurak.foodapp.domain.usecase.GetFoodsFromCartUseCase
 import com.menesdurak.foodapp.domain.usecase.PostFoodsToCartUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,11 +17,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CartViewModel @Inject constructor(
-    private val getFoodsFromCartUseCase: GetFoodsFromCartUseCase
+    private val getFoodsFromCartUseCase: GetFoodsFromCartUseCase,
+    private val deleteFoodFromCartUseCase: DeleteFoodFromCartUseCase
 ): ViewModel() {
 
     private val _cartUiState = MutableLiveData<CartUiState<CartResponse>>()
     val cartUiState: LiveData<CartUiState<CartResponse>> get() = _cartUiState
+
+    private val _cartUiState2 = MutableLiveData<CartUiState<Response>>()
+    val cartUiState2: LiveData<CartUiState<Response>> get() = _cartUiState2
 
     fun getFoodsFromCart(userName: String) {
         viewModelScope.launch {
@@ -36,6 +41,26 @@ class CartViewModel @Inject constructor(
 
                     is NetworkResponseState.Error -> {
                         _cartUiState.postValue(CartUiState.Error("Error"))
+                    }
+                }
+            }
+        }
+    }
+
+    fun deleteFoodFromCart(foodId: Int, userName: String) {
+        viewModelScope.launch {
+            deleteFoodFromCartUseCase(foodId, userName).collectLatest {
+                when (it) {
+                    is NetworkResponseState.Success -> {
+                        _cartUiState2.postValue(CartUiState.Success(it.result!!))
+                    }
+
+                    NetworkResponseState.Loading -> {
+                        _cartUiState2.postValue(CartUiState.Loading)
+                    }
+
+                    is NetworkResponseState.Error -> {
+                        _cartUiState2.postValue(CartUiState.Error("Error"))
                     }
                 }
             }

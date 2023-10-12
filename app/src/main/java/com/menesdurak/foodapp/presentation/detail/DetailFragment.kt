@@ -10,23 +10,32 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.menesdurak.foodapp.common.Constants
 import com.menesdurak.foodapp.data.remote.dto.Food
 import com.menesdurak.foodapp.databinding.FragmentDetailBinding
+import com.menesdurak.foodapp.presentation.login.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class DetailFragment : Fragment() {
-    private lateinit var binding: FragmentDetailBinding
+    private var _binding: FragmentDetailBinding? = null
+    private val binding get() = _binding!!
     private val detailViewModel by viewModels<DetailViewModel>()
+    private val loginViewModel by viewModels<LoginViewModel>()
     private lateinit var food: Food
-    private var userName = "numan123"
+    private var userName = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        binding = FragmentDetailBinding.inflate(inflater, container, false)
+        _binding = FragmentDetailBinding.inflate(inflater, container, false)
+        val view = binding.root
 
         val bundle: DetailFragmentArgs by navArgs()
         food = bundle.food
@@ -36,11 +45,15 @@ class DetailFragment : Fragment() {
             .load(Constants.FOOD_IMAGE + food.image)
             .into(binding.ivFood)
 
-        return binding.root
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        userName = loginViewModel.getUserMail()
+
+        Log.e("Username", "View $userName")
 
         with(binding) {
             ivDecrease.setOnClickListener {
@@ -52,18 +65,42 @@ class DetailFragment : Fragment() {
                 tvCount.text = tvCount.text.toString().toInt().plus(1).toString()
             }
             btnAddToCart.setOnClickListener {
-                detailViewModel.postFoodsToCart(
-                    food.name,
-                    food.image,
-                    food.price.toInt(),
-                    tvCount.text.toString().toInt(),
-                    userName
-                )
-                observeUiState()
-                animationView.playAnimation()
+                if (userName != "") {
+                    detailViewModel.postFoodsToCart(
+                        food.name,
+                        food.image,
+                        food.price.toInt(),
+                        tvCount.text.toString().toInt(),
+                        userName
+                    )
+                    observeUiState()
+                    animationView.playAnimation()
+                } else {
+                    Snackbar.make(
+                        requireView(),
+                        "You need to sign in to add this to your cart. Do you want to sign in?",
+                        Snackbar.LENGTH_SHORT
+                    ).setAction("YES") {
+                        val action = DetailFragmentDirections.actionDetailFragmentToLoginFragment()
+                        findNavController().navigate(action)
+                    }.show()
+                }
 
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        userName = loginViewModel.getUserMail()
+
+        Log.e("Username", "Resume $userName")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun observeUiState() {

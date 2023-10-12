@@ -76,4 +76,25 @@ class FoodRepositoryImpl @Inject constructor(
             }
         }.flowOn(ioDispatcher)
     }
+
+    override suspend fun deleteFoodFromCart(
+        foodId: Int,
+        userName: String,
+    ): Flow<NetworkResponseState<Response>> {
+        return flow {
+            emit(NetworkResponseState.Loading)
+            when ( val response =
+                remoteDataSource.deleteFoodFromCart(foodId, userName)) {
+                is NetworkResponseState.Error -> {
+                    emit(NetworkResponseState.Error(response.exception))
+                }
+
+                is NetworkResponseState.Success -> {
+                    emit(NetworkResponseState.Success(response.result))
+                }
+
+                else -> { }
+            }
+        }.flowOn(ioDispatcher)
+    }
 }

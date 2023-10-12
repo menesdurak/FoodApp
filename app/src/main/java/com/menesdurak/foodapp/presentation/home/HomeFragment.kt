@@ -10,6 +10,9 @@ import androidx.activity.viewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.menesdurak.foodapp.R
 import com.menesdurak.foodapp.data.remote.dto.Food
 import com.menesdurak.foodapp.databinding.FragmentHomeBinding
@@ -20,7 +23,6 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val homeViewModel by viewModels<HomeViewModel>()
     private val homeAdapter by lazy { FoodAdapter(::onItemClick) }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -56,7 +58,6 @@ class HomeFragment : Fragment() {
                 }
 
                 is HomeUiState.Success -> {
-                    Log.e("HomeViewModel", "Success: ${it.data.foods}")
                     homeAdapter.updateFoods(it.data.foods)
                 }
             }

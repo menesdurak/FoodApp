@@ -8,27 +8,47 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.menesdurak.foodapp.R
+import com.menesdurak.foodapp.data.remote.dto.CartFood
 import com.menesdurak.foodapp.databinding.FragmentCartBinding
 import com.menesdurak.foodapp.presentation.home.HomeUiState
 import com.menesdurak.foodapp.presentation.home.HomeViewModel
+import com.menesdurak.foodapp.presentation.login.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CartFragment : Fragment() {
     private lateinit var binding: FragmentCartBinding
     private val cartViewModel by viewModels<CartViewModel>()
+    private val loginViewModel by viewModels<LoginViewModel>()
     private var userName = ""
+    private val cartFoodAdapter by lazy { CartFoodAdapter(::onCartFoodLongClick) }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
         binding = FragmentCartBinding.inflate(inflater, container, false)
 
-        val bundle: CartFragmentArgs by navArgs()
-        userName = bundle.userName
+        with(binding.recyclerView) {
+            adapter = cartFoodAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+        }
 
-        cartViewModel.getFoodsFromCart(userName)
+        userName = loginViewModel.getUserMail()
+
+        Log.e("Username", "$userName")
+
+        if (userName != "") {
+            cartViewModel.getFoodsFromCart(userName)
+        }
+
         observeUiState()
 
         return binding.root
@@ -46,10 +66,18 @@ class CartFragment : Fragment() {
                 }
 
                 is CartUiState.Success -> {
-                    Log.e("HomeViewModel", "Success: ${it.data.cartFoodList}")
+                    cartFoodAdapter.updateCartFoodList(it.data.cartFoodList)
                 }
             }
         }
+    }
+
+    private fun onCartFoodLongClick(position: Int, cartFood: CartFood) {
+        Snackbar.make(requireView(), "Do you want to delete ${cartFood.foodName} from your cart?", Snackbar.LENGTH_SHORT)
+            .setAction("YES") {
+                cartViewModel.deleteFoodFromCart(cartFood.foodId.toInt(), userName)
+                cartFoodAdapter.removeCartFood(position)
+            }.show()
     }
 
 }

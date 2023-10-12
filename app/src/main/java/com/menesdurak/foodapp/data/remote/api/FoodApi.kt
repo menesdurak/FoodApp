@@ -28,4 +28,11 @@ interface FoodApi {
     suspend fun getFoodsFromCart(
         @Field("kullanici_adi") userName: String
     ) : CartResponse
+
+    @POST("yemekler/sepettenYemekSil.php")
+    @FormUrlEncoded
+    suspend fun deleteFoodFromCart(
+        @Field("sepet_yemek_id") foodId: Int,
+        @Field("kullanici_adi") userName: String
+    ) : Response
 }

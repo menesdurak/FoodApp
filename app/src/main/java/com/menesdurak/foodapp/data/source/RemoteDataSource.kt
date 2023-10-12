@@ -16,4 +16,5 @@ interface RemoteDataSource {
         userName: String,
     ): NetworkResponseState<Response>
     suspend fun getFoodsFromCart(userName: String): NetworkResponseState<CartResponse>
+    suspend fun deleteFoodFromCart(foodId: Int, userName: String): NetworkResponseState<Response>
 }

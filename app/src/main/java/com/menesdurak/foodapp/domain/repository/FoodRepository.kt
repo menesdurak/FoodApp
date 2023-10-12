@@ -16,4 +16,5 @@ interface FoodRepository {
         userName: String,
     ): Flow<NetworkResponseState<Response>>
     suspend fun getFoodsFromCart(userName: String): Flow<NetworkResponseState<CartResponse>>
+    suspend fun deleteFoodFromCart(foodId: Int, userName: String): Flow<NetworkResponseState<Response>>
 }

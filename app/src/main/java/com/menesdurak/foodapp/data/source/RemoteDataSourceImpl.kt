@@ -38,5 +38,15 @@ class RemoteDataSourceImpl @Inject constructor(private val foodApi: FoodApi) : R
             NetworkResponseState.Error(e)
         }
 
+    override suspend fun deleteFoodFromCart(
+        foodId: Int,
+        userName: String,
+    ): NetworkResponseState<Response> =
+        try {
+            val response = foodApi.deleteFoodFromCart(foodId, userName)
+            NetworkResponseState.Success(response)
+        } catch (e: Exception) {
+            NetworkResponseState.Error(e)
+        }
 
 }
