@@ -25,6 +25,12 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
+
+        val userMail = loginViewModel.getUserMail()
+        if (userMail != "") {
+            goToUserPage()
+        }
+
         return binding.root
     }
 
@@ -45,6 +51,11 @@ class LoginFragment : Fragment() {
             findNavController().navigate(action)
         }
 
+    }
+
+    private fun goToUserPage() {
+        val action = LoginFragmentDirections.actionLoginFragmentToUserFragment()
+        findNavController().navigate(action)
     }
 
 }

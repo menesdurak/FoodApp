@@ -31,13 +31,10 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.home -> navController.navigate(R.id.homeFragment)
-                R.id.user -> navController.navigate(R.id.userFragment)
+                R.id.cart -> navController.navigate(R.id.cartFragment)
+                R.id.user -> navController.navigate(R.id.loginFragment)
             }
             true
-        }
-
-        binding.btnGoToCart.setOnClickListener {
-            navController.navigate(R.id.cartFragment)
         }
     }
 
