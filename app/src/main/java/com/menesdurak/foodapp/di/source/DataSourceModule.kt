@@ -1,7 +1,7 @@
 package com.menesdurak.foodapp.di.source
 
-import com.menesdurak.foodapp.data.source.RemoteDataSource
-import com.menesdurak.foodapp.data.source.RemoteDataSourceImpl
+import com.menesdurak.foodapp.data.source.remote.RemoteDataSource
+import com.menesdurak.foodapp.data.source.remote.RemoteDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

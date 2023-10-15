@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -59,6 +60,17 @@ class HomeFragment : Fragment() {
 
                 is HomeUiState.Success -> {
                     homeAdapter.updateFoods(it.data.foods)
+                    binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+                        override fun onQueryTextSubmit(query: String): Boolean {
+                            homeAdapter.updateFoods(homeViewModel.filterFoods(query, it.data.foods))
+                            return true
+                        }
+
+                        override fun onQueryTextChange(newText: String): Boolean {
+                            homeAdapter.updateFoods(homeViewModel.filterFoods(newText, it.data.foods))
+                            return false
+                        }
+                    })
                 }
             }
         }

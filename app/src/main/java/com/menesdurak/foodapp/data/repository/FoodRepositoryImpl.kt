@@ -2,9 +2,10 @@ package com.menesdurak.foodapp.data.repository
 
 import com.menesdurak.foodapp.data.NetworkResponseState
 import com.menesdurak.foodapp.data.remote.dto.CartResponse
+import com.menesdurak.foodapp.data.remote.dto.Food
 import com.menesdurak.foodapp.data.remote.dto.Response
 import com.menesdurak.foodapp.data.remote.dto.FoodsResponse
-import com.menesdurak.foodapp.data.source.RemoteDataSource
+import com.menesdurak.foodapp.data.source.remote.RemoteDataSource
 import com.menesdurak.foodapp.di.coroutine.IoDispatcher
 import com.menesdurak.foodapp.domain.repository.FoodRepository
 import kotlinx.coroutines.CoroutineDispatcher
@@ -97,4 +98,22 @@ class FoodRepositoryImpl @Inject constructor(
             }
         }.flowOn(ioDispatcher)
     }
+
+    override suspend fun searchFoods(word: String): Flow<NetworkResponseState<List<Food>>> {
+        return flow {
+            emit(NetworkResponseState.Loading)
+            when (val response = remoteDataSource.getAllFoods()) {
+                is NetworkResponseState.Error -> {
+                    emit(NetworkResponseState.Error(response.exception))
+                }
+
+                is NetworkResponseState.Success -> {
+                    emit(NetworkResponseState.Success(response.result?.foods))
+                }
+
+                else -> {}
+            }
+        }.flowOn(ioDispatcher)
+    }
+
 }

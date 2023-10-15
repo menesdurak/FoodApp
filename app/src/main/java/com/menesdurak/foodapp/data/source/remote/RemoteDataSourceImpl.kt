@@ -1,4 +1,4 @@
-package com.menesdurak.foodapp.data.source
+package com.menesdurak.foodapp.data.source.remote
 
 import com.menesdurak.foodapp.data.NetworkResponseState
 import com.menesdurak.foodapp.data.remote.api.FoodApi

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.menesdurak.foodapp.data.NetworkResponseState
+import com.menesdurak.foodapp.data.remote.dto.Food
 import com.menesdurak.foodapp.domain.usecase.GetFoodsUseCase
 import com.menesdurak.foodapp.domain.usecase.PostFoodsToCartUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -38,6 +39,16 @@ class HomeViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun filterFoods(
+        query: String,
+        productList: List<Food>
+    ): List<Food> {
+        val filteredList = productList.filter {
+            it.name.contains(query, ignoreCase = true)
+        }
+        return filteredList
     }
 
 
