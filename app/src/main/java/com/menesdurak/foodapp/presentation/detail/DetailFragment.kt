@@ -1,7 +1,9 @@
 package com.menesdurak.foodapp.presentation.detail
 
+import android.animation.Animator
 import android.os.Bundle
 import android.util.Log
+import android.util.LogPrinter
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -40,10 +42,14 @@ class DetailFragment : Fragment() {
         val bundle: DetailFragmentArgs by navArgs()
         food = bundle.food
 
+        binding.tvFoodName.text = food.name
+
         Glide
             .with(requireContext())
             .load(Constants.FOOD_IMAGE + food.image)
             .into(binding.ivFood)
+
+        setTotalPrice(price = food.price)
 
         return view
     }
@@ -59,10 +65,12 @@ class DetailFragment : Fragment() {
             ivDecrease.setOnClickListener {
                 if (tvCount.text.toString().toInt() > 1) {
                     tvCount.text = tvCount.text.toString().toInt().plus(-1).toString()
+                    setTotalPrice(tvCount.text.toString().toInt(), food.price)
                 }
             }
             ivIncrease.setOnClickListener {
                 tvCount.text = tvCount.text.toString().toInt().plus(1).toString()
+                setTotalPrice(tvCount.text.toString().toInt(), food.price)
             }
             btnAddToCart.setOnClickListener {
                 if (userName != "") {
@@ -75,6 +83,22 @@ class DetailFragment : Fragment() {
                     )
                     observeUiState()
                     animationView.playAnimation()
+                    animationView.visibility = View.VISIBLE
+                    animationView.addAnimatorListener(object : Animator.AnimatorListener{
+                        override fun onAnimationStart(animation: Animator) {
+                        }
+
+                        override fun onAnimationEnd(animation: Animator) {
+                            animationView.visibility = View.INVISIBLE
+                        }
+
+                        override fun onAnimationCancel(animation: Animator) {
+                        }
+
+                        override fun onAnimationRepeat(animation: Animator) {
+                        }
+
+                    })
                 } else {
                     Snackbar.make(
                         requireView(),
@@ -101,6 +125,10 @@ class DetailFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun setTotalPrice(count: Int = 1, price: String) {
+        binding.tvTotalPrice.text = (count * price.toInt()).toString() + " TL"
     }
 
     private fun observeUiState() {

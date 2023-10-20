@@ -3,6 +3,11 @@
     <style name="Base.Theme.FoodApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:statusBarColor">@color/warm_orange</item>
+    </style>
+
+    <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/bottom_navigation_indicator</item>
     </style>
 
     <style name="Theme.FoodApp" parent="Base.Theme.FoodApp" />

@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:textSize="20sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/tvCount"
         app:layout_constraintStart_toEndOf="@id/ivFood"
@@ -28,25 +28,36 @@
         tools:text="Food Name" />
 
     <TextView
-        android:id="@+id/tvCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@id/tvPrice"
-        app:layout_constraintStart_toEndOf="@id/ivFood"
-        app:layout_constraintTop_toBottomOf="@id/tvFood"
-        tools:text="x3" />
-
-    <TextView
         android:id="@+id/tvPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@id/tvTotalPrice"
+        app:layout_constraintStart_toEndOf="@id/ivFood"
+        app:layout_constraintTop_toBottomOf="@id/tvFood"
+        tools:text="30 TL" />
+
+    <TextView
+        android:id="@+id/tvCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@id/tvTotalPrice"
+        app:layout_constraintStart_toEndOf="@id/tvPrice"
+        app:layout_constraintTop_toBottomOf="@id/tvFood"
+        tools:text="x 3" />
+
+    <TextView
+        android:id="@+id/tvTotalPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@id/ivFood"
         app:layout_constraintStart_toEndOf="@id/ivFood"
         app:layout_constraintTop_toBottomOf="@id/tvCount"
-        tools:text="55.55 TL" />
+        tools:text="90 TL" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

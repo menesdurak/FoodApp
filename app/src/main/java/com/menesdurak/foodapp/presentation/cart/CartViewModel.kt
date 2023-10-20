@@ -4,8 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.menesdurak.foodapp.common.convertToCartFoodUi
 import com.menesdurak.foodapp.data.NetworkResponseState
+import com.menesdurak.foodapp.data.remote.dto.CartFood
+import com.menesdurak.foodapp.data.remote.dto.CartFoodUi
 import com.menesdurak.foodapp.data.remote.dto.CartResponse
+import com.menesdurak.foodapp.data.remote.dto.Food
 import com.menesdurak.foodapp.data.remote.dto.Response
 import com.menesdurak.foodapp.domain.usecase.DeleteFoodFromCartUseCase
 import com.menesdurak.foodapp.domain.usecase.GetFoodsFromCartUseCase
@@ -21,18 +25,17 @@ class CartViewModel @Inject constructor(
     private val deleteFoodFromCartUseCase: DeleteFoodFromCartUseCase
 ): ViewModel() {
 
-    private val _cartUiState = MutableLiveData<CartUiState<CartResponse>>()
-    val cartUiState: LiveData<CartUiState<CartResponse>> get() = _cartUiState
+    private val _cartUiState = MutableLiveData<CartUiState<List<CartFoodUi>>>()
+    val cartUiState: LiveData<CartUiState<List<CartFoodUi>>> get() = _cartUiState
 
     private val _cartUiState2 = MutableLiveData<CartUiState<Response>>()
-    val cartUiState2: LiveData<CartUiState<Response>> get() = _cartUiState2
 
     fun getFoodsFromCart(userName: String) {
         viewModelScope.launch {
             getFoodsFromCartUseCase(userName).collectLatest {
                 when (it) {
                     is NetworkResponseState.Success -> {
-                        _cartUiState.postValue(CartUiState.Success(it.result!!))
+                        _cartUiState.postValue(CartUiState.Success(it.result!!.cartFoodList.convertToCartFoodUi()))
                     }
 
                     NetworkResponseState.Loading -> {

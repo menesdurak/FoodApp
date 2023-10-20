@@ -21,7 +21,7 @@ class FoodAdapter(
             fun bind(food: Food) {
                 with(binding) {
                     tvFood.text = food.name
-                    tvPrice.text = food.price
+                    tvPrice.text = food.price + " TL"
 
                     Glide
                         .with(root.context)

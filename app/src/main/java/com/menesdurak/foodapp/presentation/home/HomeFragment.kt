@@ -9,17 +9,24 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.menesdurak.foodapp.R
 import com.menesdurak.foodapp.data.remote.dto.Food
 import com.menesdurak.foodapp.databinding.FragmentHomeBinding
+import com.menesdurak.foodapp.presentation.cart.CartUiState
+import com.menesdurak.foodapp.presentation.cart.CartViewModel
+import com.menesdurak.foodapp.presentation.login.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val homeViewModel by viewModels<HomeViewModel>()
+    private val cartViewModel by viewModels<CartViewModel>()
+    private val loginViewModel by viewModels<LoginViewModel>()
+    private var userName = ""
     private val homeAdapter by lazy { FoodAdapter(::onItemClick) }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,6 +36,8 @@ class HomeFragment : Fragment() {
 
         requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigation)
             .menu.getItem(0).isChecked = true
+
+        userName = loginViewModel.getUserMail()
 
         homeViewModel.getFoods()
 
@@ -40,7 +49,7 @@ class HomeFragment : Fragment() {
 
         with(binding.recyclerView) {
             adapter = homeAdapter
-            layoutManager = LinearLayoutManager(requireContext())
+            layoutManager = GridLayoutManager(requireContext(), 2)
         }
 
         observeUiState()
@@ -71,6 +80,27 @@ class HomeFragment : Fragment() {
                             return false
                         }
                     })
+                }
+            }
+        }
+        if (userName != "") {
+            cartViewModel.getFoodsFromCart(userName)
+        }
+        cartViewModel.cartUiState.observe(viewLifecycleOwner) {
+            when (it) {
+                is CartUiState.Error -> {
+                    Log.e("HomeViewModel", "Error: ${it.message}")
+                }
+
+                CartUiState.Loading -> {
+                }
+
+                is CartUiState.Success -> {
+                    val badge =
+                        requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigation)
+                            .getOrCreateBadge(R.id.cart)
+                    badge.number = it.data.size
+                    badge.isVisible = badge.number > 0
                 }
             }
         }
