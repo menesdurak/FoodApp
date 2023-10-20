@@ -21,19 +21,16 @@ import dagger.hilt.android.AndroidEntryPoint
 class UserFragment : Fragment() {
    private lateinit var binding: FragmentUserBinding
     private val loginViewModel by viewModels<LoginViewModel>()
-    private val cartViewModel by viewModels<CartViewModel>()
     private var userName = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         binding = FragmentUserBinding.inflate(inflater, container, false)
 
         userName = loginViewModel.getUserMail()
 
         setUserEMail()
-
-        observeUiState()
 
         return binding.root
     }
@@ -50,30 +47,6 @@ class UserFragment : Fragment() {
 
     private fun setUserEMail() {
         binding.tvMail.text = loginViewModel.getUserMail()
-    }
-
-    private fun observeUiState() {
-        if (userName != "") {
-            cartViewModel.getFoodsFromCart(userName)
-        }
-        cartViewModel.cartUiState.observe(viewLifecycleOwner) {
-            when (it) {
-                is CartUiState.Error -> {
-                    Log.e("HomeViewModel", "Error: ${it.message}")
-                }
-
-                CartUiState.Loading -> {
-                }
-
-                is CartUiState.Success -> {
-                    val badge =
-                        requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigation)
-                            .getOrCreateBadge(R.id.cart)
-                    badge.number = it.data.size
-                    badge.isVisible = badge.number > 0
-                }
-            }
-        }
     }
 
 }

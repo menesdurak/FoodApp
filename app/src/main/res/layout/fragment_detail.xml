@@ -21,13 +21,13 @@
         android:id="@+id/tvFoodName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Food Name"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/tvCount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivFood" />
+        app:layout_constraintTop_toBottomOf="@id/ivFood"
+        tools:text="Food Name" />
 
     <ImageView
         android:id="@+id/ivDecrease"
@@ -56,12 +56,12 @@
         android:id="@+id/tvTotalPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvCount"
-        tools:text="100 TL"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@id/btnAddToCart"/>
+        app:layout_constraintBottom_toTopOf="@id/btnAddToCart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvCount"
+        tools:text="100 TL" />
 
     <ImageView
         android:id="@+id/ivIncrease"
@@ -95,7 +95,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:lottie_rawRes="@raw/animation_lnlvlo3n" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,8 @@
         android:id="@+id/ibSignOut"
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:background="@android:color/transparent"
         android:padding="8dp"
         android:scaleType="fitXY"
@@ -21,6 +23,7 @@
         android:id="@+id/ivUser"
         android:layout_width="120dp"
         android:layout_height="120dp"
+        android:layout_marginTop="80dp"
         android:src="@drawable/ic_baseline_person_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,7 +33,10 @@
         android:id="@+id/tvMailTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:text="User E-Mail"
+        android:textSize="24sp"
+        android:layout_marginTop="24dp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivUser" />
@@ -39,8 +45,33 @@
         android:id="@+id/tvMail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvMailTitle"
         tools:text="sadhjsdakjhd@gmail.com" />
+
+    <TextView
+        android:id="@+id/tvAddressTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="User Address"
+        android:textSize="24sp"
+        android:layout_marginTop="24dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvMail" />
+
+    <TextView
+        android:id="@+id/tvAddress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvAddressTitle"
+        android:text="Çınar Mahallesi Çam Caddesi Gül Apartmanı No:44 Daire:6 Maltepe / İSTANBUL" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

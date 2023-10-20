@@ -4,21 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/cart_background"
     tools:context=".presentation.cart.CartFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/tvTotalText"
+        app:layout_constraintBottom_toTopOf="@id/btnBuy"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tvTotalText"
+    <Button
+        android:id="@+id/btnBuy"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Total Price :"
-        android:visibility="invisible"
+        android:backgroundTint="@color/warm_orange"
+        android:text="BUY"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/guideline"
@@ -36,10 +37,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/btnBuy"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline"
-        tools:text="150 ₺" />
+        app:layout_constraintTop_toTopOf="@id/btnBuy"
+        tools:text="150 TL" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

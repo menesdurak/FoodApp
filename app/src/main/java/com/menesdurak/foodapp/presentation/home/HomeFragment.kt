@@ -10,7 +10,6 @@ import android.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.menesdurak.foodapp.R
 import com.menesdurak.foodapp.data.remote.dto.Food
@@ -54,6 +53,11 @@ class HomeFragment : Fragment() {
 
         observeUiState()
 
+        binding.btnUser.setOnClickListener {
+            val action = HomeFragmentDirections.actionHomeFragmentToUserFragment()
+            findNavController().navigate(action)
+        }
+
     }
 
     private fun observeUiState() {
@@ -64,19 +68,27 @@ class HomeFragment : Fragment() {
                 }
 
                 HomeUiState.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
                     Log.e("HomeViewModel", "Loading")
                 }
 
                 is HomeUiState.Success -> {
+                    binding.progressBar.visibility = View.GONE
                     homeAdapter.updateFoods(it.data.foods)
-                    binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+                    binding.searchView.setOnQueryTextListener(object :
+                        SearchView.OnQueryTextListener {
                         override fun onQueryTextSubmit(query: String): Boolean {
                             homeAdapter.updateFoods(homeViewModel.filterFoods(query, it.data.foods))
                             return true
                         }
 
                         override fun onQueryTextChange(newText: String): Boolean {
-                            homeAdapter.updateFoods(homeViewModel.filterFoods(newText, it.data.foods))
+                            homeAdapter.updateFoods(
+                                homeViewModel.filterFoods(
+                                    newText,
+                                    it.data.foods
+                                )
+                            )
                             return false
                         }
                     })

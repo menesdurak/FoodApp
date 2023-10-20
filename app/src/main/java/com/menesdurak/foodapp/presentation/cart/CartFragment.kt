@@ -96,10 +96,16 @@ class CartFragment : Fragment() {
         binding.tvTotalPrice.text =
             totalPrice.toString() + " TL"
         if (totalPrice == 0) {
-            binding.tvTotalText.visibility = View.INVISIBLE
+            with (binding.btnBuy) {
+                visibility = View.INVISIBLE
+                isClickable = false
+            }
             binding.tvTotalPrice.visibility = View.INVISIBLE
         } else {
-            binding.tvTotalText.visibility = View.VISIBLE
+            with (binding.btnBuy) {
+                visibility = View.VISIBLE
+                isClickable = true
+            }
             binding.tvTotalPrice.visibility = View.VISIBLE
         }
     }
