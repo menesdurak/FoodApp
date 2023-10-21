@@ -8,4 +8,5 @@ interface LocalDataSource {
     suspend fun updateFavorite(food: FavoriteFood)
     suspend fun deleteFavorite(food: FavoriteFood)
     suspend fun getAllFavorites(): LocalResponseState<List<FavoriteFood>>
+    suspend fun getAllFavoritesId(): LocalResponseState<List<Int>>
 }

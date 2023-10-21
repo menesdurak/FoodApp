@@ -16,13 +16,22 @@ class LocalDataSourceImpl @Inject constructor(private val favoriteDao: FavoriteD
     }
 
     override suspend fun deleteFavorite(food: FavoriteFood) {
-        val newFavoriteFood = FavoriteFood(food.id, "", "", "", -1, -1)
+        val newFavoriteFood = FavoriteFood(food.foodId, "", "", "")
         favoriteDao.deleteFavorite(newFavoriteFood)
     }
 
     override suspend fun getAllFavorites(): LocalResponseState<List<FavoriteFood>> {
         return try {
             val response = favoriteDao.getAllFavorites()
+            LocalResponseState.Success(response)
+        } catch (e: Exception) {
+            LocalResponseState.Error(e)
+        }
+    }
+
+    override suspend fun getAllFavoritesId(): LocalResponseState<List<Int>> {
+        return try {
+            val response = favoriteDao.getAllFavoritesId()
             LocalResponseState.Success(response)
         } catch (e: Exception) {
             LocalResponseState.Error(e)

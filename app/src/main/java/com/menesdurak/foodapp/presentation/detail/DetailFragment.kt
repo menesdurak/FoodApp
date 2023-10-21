@@ -18,6 +18,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.menesdurak.foodapp.common.Constants
 import com.menesdurak.foodapp.data.remote.dto.Food
+import com.menesdurak.foodapp.data.remote.dto.FoodUi
 import com.menesdurak.foodapp.databinding.FragmentDetailBinding
 import com.menesdurak.foodapp.presentation.login.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,7 +30,7 @@ class DetailFragment : Fragment() {
     private val binding get() = _binding!!
     private val detailViewModel by viewModels<DetailViewModel>()
     private val loginViewModel by viewModels<LoginViewModel>()
-    private lateinit var food: Food
+    private lateinit var food: FoodUi
     private var userName = ""
 
     override fun onCreateView(
@@ -40,7 +41,7 @@ class DetailFragment : Fragment() {
         val view = binding.root
 
         val bundle: DetailFragmentArgs by navArgs()
-        food = bundle.food
+        food = bundle.foodUi
 
         binding.tvFoodName.text = food.name
 

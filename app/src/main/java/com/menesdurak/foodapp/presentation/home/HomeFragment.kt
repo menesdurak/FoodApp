@@ -12,10 +12,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.menesdurak.foodapp.R
+import com.menesdurak.foodapp.data.local.entity.FavoriteFood
+import com.menesdurak.foodapp.data.local.mapper.FoodToFoodUiMapper
 import com.menesdurak.foodapp.data.remote.dto.Food
+import com.menesdurak.foodapp.data.remote.dto.FoodUi
 import com.menesdurak.foodapp.databinding.FragmentHomeBinding
 import com.menesdurak.foodapp.presentation.cart.CartUiState
 import com.menesdurak.foodapp.presentation.cart.CartViewModel
+import com.menesdurak.foodapp.presentation.favorite.FavoriteUiIdState
+import com.menesdurak.foodapp.presentation.favorite.FavoriteUiState
+import com.menesdurak.foodapp.presentation.favorite.FavoriteViewModel
 import com.menesdurak.foodapp.presentation.login.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,8 +31,11 @@ class HomeFragment : Fragment() {
     private val homeViewModel by viewModels<HomeViewModel>()
     private val cartViewModel by viewModels<CartViewModel>()
     private val loginViewModel by viewModels<LoginViewModel>()
+    private val favoriteViewModel by viewModels<FavoriteViewModel>()
     private var userName = ""
-    private val homeAdapter by lazy { FoodAdapter(::onItemClick) }
+    private val homeAdapter by lazy { FoodAdapter(::onItemClick, ::onFavoriteClick) }
+
+    private val favoriteFoodIdList = mutableListOf<Int>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -51,13 +60,17 @@ class HomeFragment : Fragment() {
             layoutManager = GridLayoutManager(requireContext(), 2)
         }
 
-        observeUiState()
-
         binding.btnUser.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToUserFragment()
             findNavController().navigate(action)
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        observeUiState()
     }
 
     private fun observeUiState() {
@@ -73,12 +86,29 @@ class HomeFragment : Fragment() {
                 }
 
                 is HomeUiState.Success -> {
+                    favoriteViewModel.getAllFavoriteFoodsId()
+                    favoriteViewModel.favoriteUiIdState.observe(viewLifecycleOwner) {
+                        when (it) {
+                            is FavoriteUiIdState.Error -> {}
+                            FavoriteUiIdState.Loading -> {}
+                            is FavoriteUiIdState.Success -> {
+                                favoriteFoodIdList.clear()
+                                favoriteFoodIdList.addAll(it.data)
+                                homeAdapter.updateFavoriteIds(favoriteFoodIdList)
+                            }
+                        }
+                    }
                     binding.progressBar.visibility = View.GONE
-                    homeAdapter.updateFoods(it.data.foods)
+                    homeAdapter.updateFoods(FoodToFoodUiMapper().map(it.data.foods))
                     binding.searchView.setOnQueryTextListener(object :
                         SearchView.OnQueryTextListener {
                         override fun onQueryTextSubmit(query: String): Boolean {
-                            homeAdapter.updateFoods(homeViewModel.filterFoods(query, it.data.foods))
+                            homeAdapter.updateFoods(
+                                homeViewModel.filterFoods(
+                                    query,
+                                    FoodToFoodUiMapper().map(it.data.foods)
+                                )
+                            )
                             return true
                         }
 
@@ -86,7 +116,7 @@ class HomeFragment : Fragment() {
                             homeAdapter.updateFoods(
                                 homeViewModel.filterFoods(
                                     newText,
-                                    it.data.foods
+                                    FoodToFoodUiMapper().map(it.data.foods)
                                 )
                             )
                             return false
@@ -118,9 +148,25 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun onItemClick(food: Food) {
+    private fun onItemClick(food: FoodUi) {
         val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(food)
         findNavController().navigate(action)
+    }
+
+    private fun onFavoriteClick(position: Int, food: FoodUi) {
+        val favoriteFood = FavoriteFood(
+            foodId = food.id.toInt(),
+            foodName = food.name,
+            image = food.image,
+            price = food.price
+        )
+        if (food.isFavorite) {
+            favoriteViewModel.deleteFood(favoriteFood)
+            homeAdapter.changeFavoriteStatus(position, food.id.toInt())
+        } else {
+            favoriteViewModel.insertFood(favoriteFood)
+            homeAdapter.changeFavoriteStatus(position, food.id.toInt())
+        }
     }
 
 }

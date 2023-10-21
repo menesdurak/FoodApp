@@ -5,11 +5,9 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "favorites_table")
 data class FavoriteFood(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    @PrimaryKey
+    val foodId: Int,
     val foodName: String,
     val image: String,
-    val price: String,
-    val count: Int,
-    var totalPrice: Int = count * price.toInt(),
+    val price: String
 )

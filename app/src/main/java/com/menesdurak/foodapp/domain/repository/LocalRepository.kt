@@ -9,4 +9,5 @@ interface LocalRepository {
     suspend fun updateFavorite(food: FavoriteFood)
     suspend fun deleteFavorite(food: FavoriteFood)
     suspend fun getAllFavorites(): Flow<LocalResponseState<List<FavoriteFood>>>
+    suspend fun getAllFavoritesId(): Flow<LocalResponseState<List<Int>>>
 }

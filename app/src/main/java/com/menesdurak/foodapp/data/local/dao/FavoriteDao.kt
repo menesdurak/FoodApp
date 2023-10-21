@@ -22,4 +22,7 @@ interface FavoriteDao {
     @Query("SELECT * FROM favorites_table")
     suspend fun getAllFavorites(): List<FavoriteFood>
 
+    @Query("SELECT foodId FROM favorites_table")
+    suspend fun getAllFavoritesId(): List<Int>
+
 }

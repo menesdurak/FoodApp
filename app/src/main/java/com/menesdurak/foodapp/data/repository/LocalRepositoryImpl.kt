@@ -41,4 +41,23 @@ class LocalRepositoryImpl @Inject constructor(private val localDataSource: Local
             }
         }
     }
+
+    override suspend fun getAllFavoritesId(): Flow<LocalResponseState<List<Int>>> {
+        return flow {
+            emit(LocalResponseState.Loading)
+            when (val response = localDataSource.getAllFavoritesId()) {
+                is LocalResponseState.Success -> {
+                    emit(LocalResponseState.Success(response.result))
+                }
+
+                is LocalResponseState.Error -> {
+                    emit(LocalResponseState.Error(response.exception))
+                }
+
+                else -> {
+                    Log.e("Error", "Ne yaptin dostum?")
+                }
+            }
+        }
+    }
 }

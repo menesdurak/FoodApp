@@ -30,15 +30,15 @@
         android:name="com.menesdurak.foodapp.presentation.detail.DetailFragment"
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail" >
-        <argument
-            android:name="food"
-            app:argType="com.menesdurak.foodapp.data.remote.dto.Food" />
         <action
             android:id="@+id/action_detailFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
         <action
             android:id="@+id/action_detailFragment_to_cartFragment"
             app:destination="@id/cartFragment" />
+        <argument
+            android:name="foodUi"
+            app:argType="com.menesdurak.foodapp.data.remote.dto.FoodUi" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
