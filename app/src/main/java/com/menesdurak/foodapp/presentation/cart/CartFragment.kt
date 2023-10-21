@@ -1,5 +1,6 @@
 package com.menesdurak.foodapp.presentation.cart
 
+import android.animation.Animator
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -46,6 +48,33 @@ class CartFragment : Fragment() {
         userName = loginViewModel.getUserMail()
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.btnBuy.setOnClickListener {
+            with(binding.animation) {
+                visibility = View.VISIBLE
+                playAnimation()
+                addAnimatorListener(object : Animator.AnimatorListener{
+                    override fun onAnimationStart(animation: Animator) { }
+
+                    override fun onAnimationEnd(animation: Animator) {
+                        visibility = View.GONE
+                        val action = CartFragmentDirections.actionCartFragmentToHomeFragment()
+                        findNavController().navigate(action)
+                    }
+
+                    override fun onAnimationCancel(animation: Animator) { }
+
+                    override fun onAnimationRepeat(animation: Animator) { }
+
+                })
+            }
+
+
+        }
     }
 
     override fun onResume() {

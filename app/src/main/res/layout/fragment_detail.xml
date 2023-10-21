@@ -94,7 +94,7 @@
         app:layout_constraintBottom_toTopOf="@id/btnAddToCart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:lottie_rawRes="@raw/animation_lnlvlo3n" />
+        app:lottie_rawRes="@raw/success" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

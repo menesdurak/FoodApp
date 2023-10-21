@@ -14,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:lottie_rawRes="@raw/animation_lnlvlo3n" />
+        app:lottie_rawRes="@raw/success" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tinLayMail"

@@ -85,12 +85,15 @@ class DetailFragment : Fragment() {
                     observeUiState()
                     animationView.playAnimation()
                     animationView.visibility = View.VISIBLE
-                    animationView.addAnimatorListener(object : Animator.AnimatorListener{
+                    animationView.addAnimatorListener(object : Animator.AnimatorListener {
                         override fun onAnimationStart(animation: Animator) {
                         }
 
                         override fun onAnimationEnd(animation: Animator) {
                             animationView.visibility = View.INVISIBLE
+                            val action =
+                                DetailFragmentDirections.actionDetailFragmentToHomeFragment()
+                            findNavController().navigate(action)
                         }
 
                         override fun onAnimationCancel(animation: Animator) {

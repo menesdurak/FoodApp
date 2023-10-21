@@ -45,4 +45,14 @@
         app:layout_constraintTop_toTopOf="@id/btnBuy"
         tools:text="150 TL" />
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation"
+        android:visibility="gone"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        app:lottie_rawRes="@raw/cart"
+        app:layout_constraintBottom_toTopOf="@id/btnBuy"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

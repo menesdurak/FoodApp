@@ -29,6 +29,7 @@ class CartViewModel @Inject constructor(
     val cartUiState: LiveData<CartUiState<List<CartFoodUi>>> get() = _cartUiState
 
     private val _cartUiState2 = MutableLiveData<CartUiState<Response>>()
+    private val _cartUiState3 = MutableLiveData<CartUiState<List<CartFoodUi>>>()
 
     fun getFoodsFromCart(userName: String) {
         viewModelScope.launch {
@@ -69,4 +70,5 @@ class CartViewModel @Inject constructor(
             }
         }
     }
+
 }
