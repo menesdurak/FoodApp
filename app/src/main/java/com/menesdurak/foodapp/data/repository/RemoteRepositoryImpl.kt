@@ -7,7 +7,7 @@ import com.menesdurak.foodapp.data.remote.dto.Response
 import com.menesdurak.foodapp.data.remote.dto.FoodsResponse
 import com.menesdurak.foodapp.data.source.remote.RemoteDataSource
 import com.menesdurak.foodapp.di.coroutine.IoDispatcher
-import com.menesdurak.foodapp.domain.repository.FoodRepository
+import com.menesdurak.foodapp.domain.repository.RemoteRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -15,10 +15,10 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class FoodRepositoryImpl @Inject constructor(
+class RemoteRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
-) : FoodRepository {
+) : RemoteRepository {
     override suspend fun getFoods(): Flow<NetworkResponseState<FoodsResponse>> {
         return flow {
             emit(NetworkResponseState.Loading)

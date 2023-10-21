@@ -52,6 +52,8 @@ class CartFragment : Fragment() {
         super.onResume()
 
         observeUiState()
+
+        setTotalPrice()
     }
 
     private fun observeUiState() {

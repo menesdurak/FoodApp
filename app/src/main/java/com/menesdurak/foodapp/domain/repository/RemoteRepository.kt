@@ -7,7 +7,7 @@ import com.menesdurak.foodapp.data.remote.dto.Response
 import com.menesdurak.foodapp.data.remote.dto.FoodsResponse
 import kotlinx.coroutines.flow.Flow
 
-interface FoodRepository {
+interface RemoteRepository {
     suspend fun getFoods(): Flow<NetworkResponseState<FoodsResponse>>
     suspend fun postFoodsToCart(
         foodName: String,

@@ -24,7 +24,7 @@ class CartFoodAdapter(
                     tvFood.text = cartFoodUi.foodName
                     tvPrice.text = cartFoodUi.price + " TL"
                     tvCount.text = "x " + cartFoodUi.count.toString()
-                    tvTotalPrice.text = (cartFoodUi.price.toInt() * cartFoodUi.count).toString()
+                    tvTotalPrice.text = (cartFoodUi.price.toInt() * cartFoodUi.count).toString() + " TL"
 
                     Glide
                         .with(root.context)

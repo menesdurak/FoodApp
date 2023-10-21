@@ -48,6 +48,7 @@ dependencies {
     val nav_version = "2.5.3"
     val retrofit_version = "2.9.0"
     val lottie_version = "3.4.0"
+    val room_version = "2.5.0"
 
     implementation("androidx.core:core-ktx:1.8.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -85,4 +86,9 @@ dependencies {
 
     //Lottie
     implementation ("com.airbnb.android:lottie:$lottie_version")
+
+    //Room
+    implementation("androidx.room:room-runtime:$room_version")
+    implementation ("androidx.room:room-ktx:$room_version")
+    kapt ("androidx.room:room-compiler:$room_version")
 }

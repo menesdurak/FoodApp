@@ -1,5 +1,6 @@
 package com.menesdurak.foodapp.di.network
 
+import com.menesdurak.foodapp.common.Constants.BASE_URL
 import com.menesdurak.foodapp.data.remote.api.FoodApi
 import dagger.Module
 import dagger.Provides
@@ -12,8 +13,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object FoodNetworkModule {
-
-    private const val BASE_URL = "http://kasimadalan.pe.hu/"
 
     @Provides
     @Singleton

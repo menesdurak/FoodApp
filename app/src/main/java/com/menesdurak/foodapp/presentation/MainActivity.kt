@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.home -> navController.navigate(R.id.homeFragment)
                 R.id.cart -> navController.navigate(R.id.cartFragment)
-                R.id.favorite -> {}
+                R.id.favorite -> navController.navigate(R.id.favoriteFragment)
             }
             true
         }

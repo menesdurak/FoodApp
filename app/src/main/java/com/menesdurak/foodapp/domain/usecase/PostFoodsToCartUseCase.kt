@@ -1,10 +1,10 @@
 package com.menesdurak.foodapp.domain.usecase
 
-import com.menesdurak.foodapp.domain.repository.FoodRepository
+import com.menesdurak.foodapp.domain.repository.RemoteRepository
 import javax.inject.Inject
 
 class PostFoodsToCartUseCase @Inject constructor(
-    private val foodRepository: FoodRepository,
+    private val remoteRepository: RemoteRepository,
 ) {
     suspend operator fun invoke(
         foodName: String,
@@ -12,5 +12,5 @@ class PostFoodsToCartUseCase @Inject constructor(
         price: Int,
         count: Int,
         userName: String,
-    ) = foodRepository.postFoodsToCart(foodName, image, price, count, userName)
+    ) = remoteRepository.postFoodsToCart(foodName, image, price, count, userName)
 }

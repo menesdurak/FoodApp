@@ -1,7 +1,5 @@
 package com.menesdurak.foodapp.data.remote.dto
 
-import com.google.gson.annotations.SerializedName
-
 data class CartFoodUi(
     val ids: List<String>,
     val foodName: String,
