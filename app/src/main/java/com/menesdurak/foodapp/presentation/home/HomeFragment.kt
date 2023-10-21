@@ -41,6 +41,11 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigation)
             .menu.getItem(0).isChecked = true
@@ -49,20 +54,36 @@ class HomeFragment : Fragment() {
 
         homeViewModel.getFoods()
 
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         with(binding.recyclerView) {
             adapter = homeAdapter
             layoutManager = GridLayoutManager(requireContext(), 2)
         }
 
         binding.btnUser.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToUserFragment()
+            val action = HomeFragmentDirections.actionHomeFragmentToLoginFragment()
             findNavController().navigate(action)
+        }
+
+        if (userName != "") {
+            cartViewModel.getFoodsFromCart(userName)
+        }
+        cartViewModel.cartUiState.observe(viewLifecycleOwner) {
+            when (it) {
+                is CartUiState.Error -> {
+                    Log.e("HomeViewModel", "Error: ${it.message}")
+                }
+
+                CartUiState.Loading -> {
+                }
+
+                is CartUiState.Success -> {
+                    val badge =
+                        requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigation)
+                            .getOrCreateBadge(R.id.cart)
+                    badge.number = it.data.size
+                    badge.isVisible = badge.number > 0
+                }
+            }
         }
 
     }
@@ -122,27 +143,6 @@ class HomeFragment : Fragment() {
                             return false
                         }
                     })
-                }
-            }
-        }
-        if (userName != "") {
-            cartViewModel.getFoodsFromCart(userName)
-        }
-        cartViewModel.cartUiState.observe(viewLifecycleOwner) {
-            when (it) {
-                is CartUiState.Error -> {
-                    Log.e("HomeViewModel", "Error: ${it.message}")
-                }
-
-                CartUiState.Loading -> {
-                }
-
-                is CartUiState.Success -> {
-                    val badge =
-                        requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigation)
-                            .getOrCreateBadge(R.id.cart)
-                    badge.number = it.data.size
-                    badge.isVisible = badge.number > 0
                 }
             }
         }
